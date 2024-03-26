@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct Task {
+    std::string description;
+    bool completed;
+};
+
+std::vector<Task> tasks;
+
+void addTask(const std::string& description) {
+    tasks.push_back({description, false});
+}
+
+void viewTasks() {
+    for (int i = 0; i < tasks.size(); ++i) {
+        std::cout << i + 1 << ". " << tasks[i].description;
+        if (tasks[i].completed) {
+            std::cout << " (completed)";
+        }
+        std::cout << "\n";
+    }
+}
+
+void markTaskAsCompleted(int taskNumber) {
+    if (taskNumber > 0 && taskNumber <= tasks.size()) {
+        tasks[taskNumber - 1].completed = true;
+    }
+}
+
+void removeTask(int taskNumber) {
+    if (taskNumber > 0 && taskNumber <= tasks.size()) {
+        tasks.erase(tasks.begin() + taskNumber - 1);
+    }
+}
+
+int main() {
+    while (true) {
+        std::cout << "1. Add task\n2. View tasks\n3. Mark task as completed\n4. Remove task\n5. Quit\n";
+        int option;
+        std::cin >> option;
+
+        if (option == 1) {
+            std::cout << "Enter task description: ";
+            std::string description;
+            std::cin.ignore();
+            std::getline(std::cin, description);
+            addTask(description);
+        } else if (option == 2) {
+            viewTasks();
+        } else if (option == 3) {
+            std::cout << "Enter task number to mark as completed: ";
+            int taskNumber;
+            std::cin >> taskNumber;
+            markTaskAsCompleted(taskNumber);
+        } else if (option == 4) {
+            std::cout << "Enter task number to remove: ";
+            int taskNumber;
+            std::cin >> taskNumber;
+            removeTask(taskNumber);
+        } else if (option == 5) {
+            break;
+        }
+    }
+
+    return 0;
+}
